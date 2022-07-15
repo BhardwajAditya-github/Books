@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  </head>
+  <style>
+     .manga-list{
+    height: 320px;
+    /* background-color: antiquewhite; */
+    padding: 10px 180px 10px 180px;
+    text-align: center;
+  }
+  .manga-img{
+    height: 150px;
+  }
+  .manga-card{
+    height: 280px;
+    overflow-y:hidden;
+    margin-bottom: 10px;
+  }
+  @media screen and (max-width: 700px) {
+  .manga-list{
+    height: 100%;
+    background-color: rgb(0, 170, 255);
+    padding: 10px 60px 10px 60px;
+    /* text-align: center; */
+  }
+  .manga-img{
+    height: 150px;
+  }
+  .manga-card{
+    height: 250px;
+    /* width: 100%; */
+    overflow-y:hidden;
+    margin-bottom: 10px;
+  }
+  }
+  </style>
+  <body>
+    <div class="manga-list">
+        <u><h2 style="text-align: center;">Top Manga</h2></u>
+        <div class="row" id="myMangas">
+              <!-- <div class="col-lg-2 col-md-4">
+                  <div class="card">
+                      <img src="" class="card-img-top card-images" alt="...">
+                      <div class="card-body">
+                      <h5 class="card-title">Card title</h5>
+                      </div>
+                      <ul class="list-group list-group-flush">
+                      <li class="list-group-item">An item</li>
+                      </ul>
+                  </div>  
+            </div>     -->
+        </div>
+      </div>
+      <script type="text/javascript">
+        const data = null;
+
+const xhr = new XMLHttpRequest();
+xhr.open("GET", "https://jikan1.p.rapidapi.com/top/anime/1/upcoming");
+xhr.setRequestHeader("X-RapidAPI-Key", "1392d4150fmshe0f1c4f89704249p1b705fjsnd0a13fcb3124");
+xhr.setRequestHeader("X-RapidAPI-Host", "jikan1.p.rapidapi.com");
+
+myMangas = document.getElementById("myMangas");
+var mangaData = "";
+
+xhr.addEventListener("readystatechange", function () {
+	if (this.readyState === this.DONE) {
+		let json = JSON.parse(this.responseText);
+        let top = json.top;
+        console.log(top)
+        for(x=0;x<top.length;x++){
+            obj = top[x];
+            image = obj.image_url;
+            title = obj.title;
+            console.log(obj)
+            url = obj.url;
+
+          var book =`<div class="col-lg-2 col-md-4">
+            <div class="card manga-card">
+                <a href="${url}"><img src="${image}" class="card-img-top card-images manga-img" alt="..."></a>
+                <div class="card-body">
+                <h5 class="card-title">${title}</h5>
+                </div>
+            </div>  
+      </div>` 
+
+      mangaData += book;
+            // console.log(obj)
+        }
+        myMangas.innerHTML = mangaData;
+        // console.log(top)
+	}
+});
+
+// xhr.open("GET", "https://jikan1.p.rapidapi.com/top/anime/1/upcoming");
+// xhr.setRequestHeader("X-RapidAPI-Key", "1392d4150fmshe0f1c4f89704249p1b705fjsnd0a13fcb3124");
+// xhr.setRequestHeader("X-RapidAPI-Host", "jikan1.p.rapidapi.com");
+
+xhr.send(data);
+      </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+  </body>
+</html>
